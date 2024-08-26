@@ -1,10 +1,10 @@
-package com.exam.project.jobinterview;
+package com.exam.project.reservation;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class JobinterviewApplicationTests {
+class ReservationApplicationTests {
 
 	@Test
 	void contextLoads() {
