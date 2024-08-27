@@ -38,7 +38,7 @@ public class RestAPISecurityConfig {
                         .requestMatchers(HttpMethod.GET, apiPath.concat("/customers")).hasRole("WEBAPI")
                         .requestMatchers(HttpMethod.GET, apiPath.concat("/customers/**")).hasRole("WEBAPI")
                         .requestMatchers(HttpMethod.POST, apiPath.concat("/customers")).hasRole("MANAGER")
-                        .requestMatchers(HttpMethod.PUT, apiPath.concat("/customers")).hasRole("MANAGER")
+                        .requestMatchers(HttpMethod.PUT, apiPath.concat("/customers/**")).hasRole("MANAGER")
                         .requestMatchers(HttpMethod.DELETE, apiPath.concat("/customers/**")).hasRole("ADMIN")
         );
 
