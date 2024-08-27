@@ -3,7 +3,8 @@ package com.exam.project.reservation.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
-import org.hibernate.annotations.ColumnDefault;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.time.LocalDateTime;
 
@@ -11,7 +12,8 @@ import java.time.LocalDateTime;
 @Table(name = "reservation")
 @Data
 public class Reservation {
-    // TODO: try to custom generate this
+    private static Log log = LogFactory.getLog(Reservation.class);
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "reservation_id")
@@ -42,5 +44,12 @@ public class Reservation {
 
     public Reservation() {
         // required no-args constructor
+    }
+
+    // send notification after a new reservation is created
+    @PostPersist
+    public void afterReservationCreated() {
+        log.info(">>> new reservation created");
+        log.info(">>> send notification to user id: " + customerId);
     }
 }
