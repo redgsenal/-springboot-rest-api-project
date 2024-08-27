@@ -1,7 +1,10 @@
 package com.exam.project.reservation.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -50,6 +53,18 @@ public class Reservation {
     @PostPersist
     public void afterReservationCreated() {
         log.info(">>> new reservation created");
+        log.info(">>> send notification to user id: " + customerId);
+    }
+
+    @PostRemove
+    public void afterReservationDeleted() {
+        log.info(">>> cancelled reservation");
+        log.info(">>> send notification to user id: " + customerId);
+    }
+
+    @PostUpdate
+    public void afterReservationUpdated() {
+        log.info(">>> update reservation");
         log.info(">>> send notification to user id: " + customerId);
     }
 }
