@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.exam.project</groupId>
-	<artifactId>jobinterview</artifactId>
+	<artifactId>reservation</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>jobinterview</name>
+	<name>reservation</name>
 	<description>Restaurant reservation system job exam Reggie</description>
 	<url/>
 	<licenses>
