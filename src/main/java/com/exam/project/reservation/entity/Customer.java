@@ -1,11 +1,10 @@
 package com.exam.project.reservation.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.NonNull;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "customer")
@@ -17,24 +16,26 @@ public class Customer {
     @Column(name = "customer_id")
     private Long customerId;
 
-    @NonNull
-    @Column(name = "first_name")
+    @NotNull
+    @NotEmpty
+    @Column(name = "first_name", length = 100)
     private String firstName;
 
-    @NonNull
-    @Column(name = "last_name")
+    @NotNull
+    @NotEmpty
+    @Column(name = "last_name", length = 100)
     private String lastName;
 
-    @NonNull
-    @Column(name = "email")
+    @NotNull
+    @NotEmpty
+    @Column(name = "email", length = 100)
+    @Email
     private String email;
 
-    @NonNull
-    @Column(name = "phone_number")
+    @NotNull
+    @NotEmpty
+    @Column(name = "phone_number", length= 30)
     private String phoneNumber;
-
-    @OneToMany(mappedBy = "customer")
-    private Set<Reservation> reservation = new HashSet<>();
 
     public Customer() {
         // required no-args constructor

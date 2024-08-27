@@ -1,10 +1,11 @@
 package com.exam.project.reservation.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.Data;
-import lombok.NonNull;
+import org.hibernate.annotations.ColumnDefault;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "reservation")
@@ -16,23 +17,28 @@ public class Reservation {
     @Column(name = "reservation_id")
     private Long reservationId;
 
-    @NonNull
-    @Column(name = "timeslot")
-    private Date timeSlot;
+    @NotNull
+    @Column(name = "customer_id")
+    private Long customerId;
 
+    @NotNull
+    @Column(name = "timeslot")
+    @Future
+    private LocalDateTime timeSlot;
+
+    @NotNull
     @Column(name = "guest_count")
+    @Min(1)
+    @Max(20)
     private int guestCount;
 
-    @NonNull
+    @NotNull
     @Column(name = "notify_method")
     private String notifyMethod;
 
+    @NotNull
     @Column(name = "has_notify")
     private boolean hasNotified;
-
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
 
     public Reservation() {
         // required no-args constructor
