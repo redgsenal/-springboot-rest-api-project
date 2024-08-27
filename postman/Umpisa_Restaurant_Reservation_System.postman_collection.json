@@ -211,7 +211,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"firstName\" : \"Sally\",\r\n    \"lastName\": \"Moss\",\r\n    \"email\": \"sm@test.com\",\r\n    \"phoneNumber\" : \"656523233\"\r\n}",
+					"raw": "{\r\n    \"firstName\" : \"Harry\",\r\n    \"lastName\": \"Deebs\",\r\n    \"email\": \"harryddb@test.com\",\r\n    \"phoneNumber\" : \"998474745\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -301,7 +301,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"customerId\" : 1,\r\n    \"timeSlot\": \"2024-08-30T15:00:00.000\",\r\n    \"guestCount\": 1,\r\n    \"notifyMethod\" : \"email\",\r\n    \"hasNotified\": false\r\n}",
+					"raw": "{\r\n    \"customerId\" : 1,\r\n    \"timeSlot\": \"2024-09-20T19:45:00.000\",\r\n    \"guestCount\": 12,\r\n    \"notifyMethod\" : \"email\",\r\n    \"hasNotified\": false\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -437,7 +437,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"customerId\" : 1,\r\n    \"timeSlot\": \"2024-09-03T10:00:00.000\",\r\n    \"guestCount\": 15,\r\n    \"notifyMethod\" : \"sms\",\r\n    \"hasNotified\": false\r\n}",
+					"raw": "{\r\n    \"customerId\" : 1,\r\n    \"timeSlot\": \"2024-09-03T12:00:00.000\",\r\n    \"guestCount\": 5,\r\n    \"notifyMethod\" : \"email\",\r\n    \"hasNotified\": false\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -445,7 +445,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/reservations/2",
+					"raw": "http://localhost:8080/api/v1/reservations/3",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -455,7 +455,7 @@
 						"api",
 						"v1",
 						"reservations",
-						"2"
+						"3"
 					]
 				}
 			},
@@ -481,15 +481,6 @@
 				},
 				"method": "DELETE",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"firstName\" : \"Sally\",\r\n    \"lastName\": \"Moss\",\r\n    \"email\": \"sm@test.com\",\r\n    \"phoneNumber\" : \"543432343\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
 					"raw": "http://localhost:8080/api/v1/customers/3",
 					"protocol": "http",
@@ -501,6 +492,43 @@
 						"api",
 						"v1",
 						"customers",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Reservation",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "super123",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/reservations/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"reservations",
 						"3"
 					]
 				}
