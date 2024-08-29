@@ -9,8 +9,11 @@ import lombok.Data;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.annotations.CreationTimestamp;
+import org.json.JSONObject;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 @Entity
 @Table(name = "reservation")
@@ -27,6 +30,7 @@ public class Reservation {
     @Column(name = "customer_id")
     private Long customerId;
      */
+    @NotNull
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id")
     private Customer customer;
@@ -52,10 +56,58 @@ public class Reservation {
 
     @NotNull
     @CreationTimestamp
-    private LocalDateTime creationDate;
+    @Column(name = "create_date", nullable = false)
+    private LocalDateTime createDate;
 
-    public Reservation() {
-        // required no-args constructor
+    public Reservation(JSONObject jsonData) {
+        if (jsonData == null) {
+            return;
+        }
+        this.timeSlot = extractTimeSlot(jsonData);
+        this.hasNotified = extractHasNotified(jsonData);
+        this.guestCount = extractGuestCount(jsonData);
+        this.timeSlot = extractTimeSlot(jsonData);
+        this.notifyMethod = extractNotifyMethod(jsonData);
+        this.createDate = extractCreateDate();
+    }
+
+    private DateTimeFormatter getDateFormatter(){
+        return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:00.000");
+    }
+
+    private LocalDateTime extractCreateDate() {
+        DateTimeFormatter formatter = getDateFormatter();
+        String currentTimeStamp = LocalDateTime.now().format(formatter);
+        return LocalDateTime.parse(currentTimeStamp, formatter);
+    }
+
+    private String extractNotifyMethod(JSONObject jsonData) {
+        if (jsonData == null || !jsonData.has("notifyMethod")) {
+            return null;
+        }
+        return jsonData.getString("notifyMethod");
+    }
+
+    private boolean extractHasNotified(JSONObject jsonData) {
+        if (jsonData == null || !jsonData.has("hasNotified")) {
+            return false;
+        }
+        return jsonData.getBoolean("hasNotified");
+    }
+
+    private int extractGuestCount(JSONObject jsonData) {
+        if (jsonData == null || !jsonData.has("guestCount")) {
+            return 2;
+        }
+        return jsonData.getInt("guestCount");
+    }
+
+    private LocalDateTime extractTimeSlot(JSONObject jsonData) {
+        if (jsonData == null || !jsonData.has("timeSlot")) {
+            throw new RuntimeException("Invalid timeslot");
+        }
+        DateTimeFormatter formatter = getDateFormatter();
+        return LocalDateTime.parse(jsonData.getString("timeSlot"), formatter);
     }
 
     // send notification after a new reservation is created
@@ -77,7 +129,7 @@ public class Reservation {
         sendNotification("Reservation updated");
     }
 
-    private void sendNotification(String message){
+    private void sendNotification(String message) {
         log.info(">>> send notification to user id: " + customer.getCustomerId());
         log.info(">>> method: " + this.getNotifyMethod());
         log.info(">>> message: " + message);

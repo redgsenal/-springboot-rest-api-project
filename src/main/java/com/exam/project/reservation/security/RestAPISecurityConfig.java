@@ -37,13 +37,17 @@ public class RestAPISecurityConfig {
                 configure
                         .requestMatchers(HttpMethod.GET, apiPath.concat("/customers")).hasRole("WEBAPI")
                         .requestMatchers(HttpMethod.GET, apiPath.concat("/customers/**")).hasRole("WEBAPI")
-                        .requestMatchers(HttpMethod.POST, apiPath.concat("/customers")).hasRole("MANAGER")
-                        .requestMatchers(HttpMethod.PUT, apiPath.concat("/customers/**")).hasRole("MANAGER")
-                        .requestMatchers(HttpMethod.DELETE, apiPath.concat("/customers/**")).hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, apiPath.concat("/reservations")).hasRole("WEBAPI")
                         .requestMatchers(HttpMethod.GET, apiPath.concat("/reservations/**")).hasRole("WEBAPI")
+
+                        .requestMatchers(HttpMethod.POST, apiPath.concat("/customers")).hasRole("MANAGER")
                         .requestMatchers(HttpMethod.POST, apiPath.concat("/reservations")).hasRole("MANAGER")
+                        .requestMatchers(HttpMethod.POST, apiPath.concat("/customers/**")).hasRole("MANAGER")
+
+                        .requestMatchers(HttpMethod.PUT, apiPath.concat("/customers/**")).hasRole("MANAGER")
                         .requestMatchers(HttpMethod.PUT, apiPath.concat("/reservations/**")).hasRole("MANAGER")
+
+                        .requestMatchers(HttpMethod.DELETE, apiPath.concat("/customers/**")).hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, apiPath.concat("/reservations/**")).hasRole("ADMIN")
         );
 
