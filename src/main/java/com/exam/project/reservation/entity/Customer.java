@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Table(name = "customer")
 @Data
@@ -36,6 +38,9 @@ public class Customer {
     @NotEmpty
     @Column(name = "phone_number", length= 30)
     private String phoneNumber;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.ALL)
+    private List<Reservation> reservationList;
 
     public Customer() {
         // required no-args constructor
