@@ -1,5 +1,6 @@
 package com.exam.project.reservation.entity;
 
+import com.exam.project.reservation.utility.AppUtils;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Max;
@@ -42,7 +43,7 @@ public class Reservation {
     private int guestCount;
 
     @NotNull
-    @Column(name = "notify_method")
+    @Column(name = "notify_method", length = 10)
     private String notifyMethod;
 
     @NotNull
@@ -66,43 +67,27 @@ public class Reservation {
         this.createDate = extractCreateDate();
     }
 
-    private DateTimeFormatter getDateFormatter(){
-        return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:00.000");
-    }
-
     private LocalDateTime extractCreateDate() {
-        DateTimeFormatter formatter = getDateFormatter();
+        DateTimeFormatter formatter = AppUtils.createDateFormatter();
         String currentTimeStamp = LocalDateTime.now().format(formatter);
         return LocalDateTime.parse(currentTimeStamp, formatter);
     }
 
     private String extractNotifyMethod(JSONObject jsonData) {
-        if (jsonData == null || !jsonData.has("notifyMethod")) {
-            return null;
-        }
-        return jsonData.getString("notifyMethod");
+        return AppUtils.extractJSONStringValue(jsonData, "notifyMethod");
     }
 
     private boolean extractHasNotified(JSONObject jsonData) {
-        if (jsonData == null || !jsonData.has("hasNotified")) {
-            return false;
-        }
-        return jsonData.getBoolean("hasNotified");
+        return AppUtils.extractJSONBooleanValue(jsonData, "hasNotified");
     }
 
     private int extractGuestCount(JSONObject jsonData) {
-        if (jsonData == null || !jsonData.has("guestCount")) {
-            return 2;
-        }
-        return jsonData.getInt("guestCount");
+        int count = AppUtils.extractJSONIntegerValue(jsonData, "guestCount");
+        return (count < 1) ? 2 : count;
     }
 
     private LocalDateTime extractTimeSlot(JSONObject jsonData) {
-        if (jsonData == null || !jsonData.has("timeSlot")) {
-            throw new RuntimeException("Invalid timeslot");
-        }
-        DateTimeFormatter formatter = getDateFormatter();
-        return LocalDateTime.parse(jsonData.getString("timeSlot"), formatter);
+        return AppUtils.extractJSONDateValue(jsonData, "timeSlot");
     }
 
     // send notification after a new reservation is created
