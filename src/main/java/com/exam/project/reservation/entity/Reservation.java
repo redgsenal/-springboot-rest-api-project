@@ -25,10 +25,6 @@ public class Reservation {
     @Column(name = "reservation_id")
     private Long reservationId;
 
-    /*@NotNull
-    @Column(name = "customer_id")
-    private Long customerId;
-     */
     @NotNull
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id")
