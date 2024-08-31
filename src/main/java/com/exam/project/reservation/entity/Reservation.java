@@ -6,20 +6,19 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import lombok.extern.java.Log;
 import org.hibernate.annotations.CreationTimestamp;
 import org.json.JSONObject;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
+import java.util.logging.Level;
 
+@Log
 @Entity
 @Table(name = "reservation")
 @Data
 public class Reservation {
-    private static Log log = LogFactory.getLog(Reservation.class);
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -113,27 +112,27 @@ public class Reservation {
     // send notification after a new reservation is created
     @PostPersist
     public void afterReservationCreated() {
-        log.info(">>> new reservation created");
+        log.log(Level.INFO, ">>> new reservation created");
         sendNotification("Reservation created");
     }
 
     @PostRemove
     public void afterReservationDeleted() {
-        log.info(">>> cancelled reservation");
+        log.log(Level.INFO, ">>> cancelled reservation");
         sendNotification("Reservation cancelled");
     }
 
     @PostUpdate
     public void afterReservationUpdated() {
-        log.info(">>> update reservation");
+        log.log(Level.INFO, ">>> update reservation");
         sendNotification("Reservation updated");
     }
 
     private void sendNotification(String message) {
-        log.info(">>> send notification to user id: " + customer.getCustomerId());
-        log.info(">>> method: " + this.getNotifyMethod());
-        log.info(">>> message: " + message);
+        log.log(Level.INFO, ">>> send notification to user id: " + customer.getCustomerId());
+        log.log(Level.INFO, ">>> method: " + this.getNotifyMethod());
+        log.log(Level.INFO, ">>> message: " + message);
         String notifyMessage = "sms".equalsIgnoreCase(this.getNotifyMethod()) ? "SMS sent to: " + customer.getPhoneNumber() : "Email sent to: " + customer.getEmail();
-        log.info(">>> " + notifyMessage);
+        log.log(Level.INFO, ">>> " + notifyMessage);
     }
 }
